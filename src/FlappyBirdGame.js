@@ -266,13 +266,7 @@ const FlappyBirdGame = () => {
           backgroundRepeat: 'repeat-x'
         }}
       />
-      <div
-        className="foreground-layer"
-        style={{
-          background: 'repeating-linear-gradient(135deg, #ded895 0 20px, #bbaa60 20px 40px)',
-          backgroundSize: '40px 40px'
-        }}
-      />
+      {/* Ground layer removed for cleaner look with custom background */}
       
       {/* Bird */}
       {!birdImgError ? (

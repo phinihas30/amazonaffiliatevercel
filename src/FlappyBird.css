@@ -95,6 +95,19 @@
 
 /* scrollGround animation removed - ground layer not used */
 
+/* Pipe text styling for company branding */
+.topPipe, .pipe {
+    position: relative;
+    overflow: visible;
+}
+
+.topPipe div, .pipe div {
+    font-family: 'Arial', sans-serif;
+    letter-spacing: 1px;
+    user-select: none;
+    pointer-events: none;
+}
+
 .bird {
     position: absolute;
     z-index: 5;

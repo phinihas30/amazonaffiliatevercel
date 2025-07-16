@@ -302,24 +302,56 @@ const FlappyBirdGame = () => {
       )}
       {pipes.map((pipe, index) => (
         <React.Fragment key={index}>
-          <div 
-            className="topPipe" 
-            style={{ 
-              left: pipe.left, 
+          <div
+            className="topPipe"
+            style={{
+              left: pipe.left,
               height: pipe.topPipeHeight,
               top: 0,
               transform: 'translate3d(0,0,0)' // For smoother animation
-            }} 
-          />
-          <div 
-            className="pipe" 
-            style={{ 
-              left: pipe.left, 
+            }}
+          >
+            {/* Company name on top pipe */}
+            <div style={{
+              position: 'absolute',
+              bottom: '20px',
+              left: '50%',
+              transform: 'translateX(-50%) rotate(180deg)',
+              color: '#fff',
+              fontSize: '12px',
+              fontWeight: 'bold',
+              textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
+              whiteSpace: 'nowrap',
+              zIndex: 10
+            }}>
+              pickmetrend
+            </div>
+          </div>
+          <div
+            className="pipe"
+            style={{
+              left: pipe.left,
               height: pipe.bottomPipeHeight,
               bottom: 0,
               transform: 'translate3d(0,0,0)' // For smoother animation
-            }} 
-          />
+            }}
+          >
+            {/* Company name on bottom pipe */}
+            <div style={{
+              position: 'absolute',
+              top: '20px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              color: '#fff',
+              fontSize: '12px',
+              fontWeight: 'bold',
+              textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
+              whiteSpace: 'nowrap',
+              zIndex: 10
+            }}>
+              pickmetrend
+            </div>
+          </div>
         </React.Fragment>
       ))}
       <div className="game-info">Score: {score} | High Score: {highScore}</div>

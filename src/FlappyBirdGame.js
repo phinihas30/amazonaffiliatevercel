@@ -269,15 +269,8 @@ const FlappyBirdGame = () => {
       <div
         className="foreground-layer"
         style={{
-<<<<<<< HEAD
           background: 'repeating-linear-gradient(135deg, #ded895 0 20px, #bbaa60 20px 40px)',
           backgroundSize: '40px 40px'
-=======
-          backgroundImage: `url(${process.env.PUBLIC_URL}/ground.png)`,
-          backgroundSize: 'auto 100%',
-          backgroundRepeat: 'repeat-x',
-          backgroundPosition: '0 0'
->>>>>>> origin/main
         }}
       />
       

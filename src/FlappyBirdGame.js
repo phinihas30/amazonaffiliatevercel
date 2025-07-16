@@ -266,16 +266,7 @@ const FlappyBirdGame = () => {
           backgroundRepeat: 'repeat-x'
         }}
       />
-      {/* Ground layer with custom ground image */}
-      <div
-        className="foreground-layer"
-        style={{
-          backgroundImage: `url(${process.env.PUBLIC_URL}/ground.png)`,
-          backgroundSize: 'auto 100%',
-          backgroundRepeat: 'repeat-x',
-          backgroundPosition: '0 0'
-        }}
-      />
+      {/* Ground layer removed - mismatches with background.png */}
       
       {/* Bird */}
       {!birdImgError ? (

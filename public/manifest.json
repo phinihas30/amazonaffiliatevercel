@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Amazon Affiliate",
+  "name": "Amazon Affiliate App with Flappy Bird",
   "icons": [
     {
       "src": "favicon.ico",

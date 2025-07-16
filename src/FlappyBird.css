@@ -91,9 +91,27 @@
     animation: scrollBackground 20s linear infinite;
 }
 
-/* Ground layer removed for cleaner look with custom background */
+/* Ground layer with custom ground image */
+.foreground-layer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 20%;
+    z-index: 2;
+    animation: scrollGround 8s linear infinite;
+    image-rendering: pixelated;
+    will-change: background-position;
+}
 
-/* scrollGround animation removed - no longer needed */
+@keyframes scrollGround {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: -400px 0;  /* Adjusted for ground texture scrolling */
+    }
+}
 
 .bird {
     position: absolute;

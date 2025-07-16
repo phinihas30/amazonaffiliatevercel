@@ -1,0 +1,302 @@
+/* Pipe cap for standard Flappy Bird look */
+/* Game container */
+.flappy-bird-container {
+    position: relative;
+    width: 100%;
+    height: 80vh;
+    background: linear-gradient(to bottom, #70c1ff 70%, #e0f6ff 100%); /* Classic Flappy Bird sky gradient */
+    background-size: cover;
+    background-position: 0 50%;
+    overflow: hidden;
+    animation: none;
+    /* Mobile touch optimizations */
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
+}
+
+/* Clouds using pseudo-elements */
+.flappy-bird-container::before, .flappy-bird-container::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    background: #fff;
+    opacity: 0.7;
+    z-index: 1;
+}
+.flappy-bird-container::before {
+    width: 80px;
+    height: 40px;
+    top: 40px;
+    left: 15%;
+    box-shadow: 40px 10px 0 0 #fff, 70px 0 0 0 #fff;
+}
+.flappy-bird-container::after {
+    width: 60px;
+    height: 30px;
+    top: 100px;
+    left: 60%;
+    box-shadow: 30px 10px 0 0 #fff, 50px 0 0 0 #fff;
+}
+
+/* Artificial bird in the background */
+.flappy-bird-container .background-bird {
+    position: absolute;
+    top: 18%;
+    left: 70%;
+    width: 48px;
+    height: 36px;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0.7;
+}
+.flappy-bird-container .background-bird-body {
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    width: 24px;
+    height: 16px;
+    background: #ffe066;
+    border-radius: 50% 50% 60% 60% / 60% 60% 50% 50%;
+    border: 2px solid #e1b800;
+}
+.flappy-bird-container .background-bird-wing {
+    position: absolute;
+    left: 6px;
+    top: 18px;
+    width: 16px;
+    height: 10px;
+    background: #fff;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    transform: rotate(-20deg);
+}
+.flappy-bird-container .background-bird-eye {
+    position: absolute;
+    left: 28px;
+    top: 16px;
+    width: 5px;
+    height: 5px;
+    background: #222;
+    border-radius: 50%;
+}
+.flappy-bird-container .background-bird-beak {
+    position: absolute;
+    left: 38px;
+    top: 20px;
+    width: 8px;
+    height: 6px;
+    background: orange;
+    border-radius: 0 50% 50% 0 / 50%;
+    transform: rotate(10deg);
+}
+
+@keyframes scrollBackground {
+    from {
+        background-position: 0 50%;
+    }
+    to {
+        background-position: -1920px 50%;  /* Adjusted for standard background width */
+    }
+}
+
+.background-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* CSS ground with stripes */
+.foreground-layer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 20%;
+    background: repeating-linear-gradient(
+        135deg,
+        #ded895 0 20px,
+        #bbaa60 20px 40px
+    );
+    border-top: 4px solid #bbaa60;
+    background-size: 40px 40px;
+    z-index: 2;
+    animation: none;
+    image-rendering: pixelated;
+    will-change: background-position;
+}
+
+@keyframes scrollGround {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: -384px 0;  /* Adjusted for typical ground texture width */
+    }
+}
+
+.bird {
+    position: absolute;
+    z-index: 5;
+    image-rendering: pixelated;
+    filter: drop-shadow(2px 4px 4px rgba(0,0,0,0.3));
+    transition: transform 0.1s ease-out;
+    will-change: transform;
+}
+
+.pipe, .topPipe {
+    position: absolute;
+    width: 60px;
+    background: #5a8c1a; /* Darker green */
+    z-index: 3;
+}
+
+.pipe::before, .topPipe::before {
+    content: '';
+    position: absolute;
+    left: -3px;
+    right: -3px;
+    height: 26px;
+    background: #5a8c1a; /* Darker green */
+    border: 2px solid #4A7A1C;
+    border-radius: 2px;
+}
+
+.pipe::before {
+    top: 0;
+}
+
+.topPipe::before {
+    bottom: 0;
+}
+
+.pipe {
+    border-left: 2px solid #4A7A1C;
+    border-right: 2px solid #4A7A1C;
+    border-top: 2px solid #4A7A1C;
+}
+
+.topPipe {
+    border-left: 2px solid #4A7A1C;
+    border-right: 2px solid #4A7A1C;
+    border-bottom: 2px solid #4A7A1C;
+}
+
+/* Add shading for 3D effect */
+.pipe::after, .topPipe::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+}
+
+.pipe::after {
+    left: 0;
+    background: linear-gradient(to right, rgba(116, 191, 46, 0.7), transparent);
+}
+
+.topPipe::after {
+    right: 0;
+    background: linear-gradient(to left, rgba(74, 122, 28, 0.2), transparent);
+}
+
+.game-info {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: #fff;
+    font-size: 20px;
+    z-index: 10;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.menu {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #fff;
+    z-index: 20;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.menu button {
+    padding: 15px 30px; /* Larger padding for easier touch */
+    font-size: 20px; /* Larger font for mobile */
+    cursor: pointer;
+    background: #4CAF50;
+    border: none;
+    border-radius: 8px; /* Slightly more rounded */
+    color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* More prominent shadow */
+    transition: all 0.3s ease;
+    min-width: 120px; /* Minimum width for touch targets */
+    min-height: 48px; /* Minimum height for touch targets */
+    touch-action: manipulation; /* Optimize for touch */
+    -webkit-tap-highlight-color: transparent;
+}
+
+.menu button:hover,
+.menu button:active {
+    background: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+}
+
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+    .menu button {
+        padding: 20px 40px;
+        font-size: 24px;
+        min-width: 160px;
+        min-height: 56px;
+        border-radius: 12px;
+        /* Enhanced mobile touch support */
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        user-select: none;
+        /* Better visual feedback */
+        transition: all 0.2s ease;
+        box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    }
+
+    .menu button:active {
+        transform: translateY(2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+        background: #3d8b40;
+    }
+
+    .game-info {
+        font-size: 18px;
+        top: 15px;
+        left: 15px;
+    }
+
+    .menu h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .menu {
+        /* Ensure menu doesn't interfere with touch events */
+        pointer-events: auto;
+    }
+
+    .menu button {
+        /* Ensure button is above other elements */
+        position: relative;
+        z-index: 1000;
+        /* Prevent double-tap zoom */
+        touch-action: manipulation;
+    }
+}

@@ -257,8 +257,24 @@ const FlappyBirdGame = () => {
       }}
     >
       {/* Background layers */}
-      <div className="background-layer" />
-      <div className="foreground-layer" />
+      <div
+        className="background-layer"
+        style={{
+          backgroundImage: `url(${process.env.PUBLIC_URL}/background.png)`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'repeat-x'
+        }}
+      />
+      <div
+        className="foreground-layer"
+        style={{
+          backgroundImage: `url(${process.env.PUBLIC_URL}/ground.png)`,
+          backgroundSize: 'auto 100%',
+          backgroundRepeat: 'repeat-x',
+          backgroundPosition: '0 0'
+        }}
+      />
       
       {/* Bird */}
       {!birdImgError ? (

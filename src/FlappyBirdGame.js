@@ -261,7 +261,7 @@ const FlappyBirdGame = () => {
         className="background-layer"
         style={{
           backgroundImage: `url(${process.env.PUBLIC_URL}/background.png)`,
-          backgroundSize: 'cover',
+          backgroundSize: 'contain',
           backgroundPosition: 'center',
           backgroundRepeat: 'repeat-x'
         }}

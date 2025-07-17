@@ -7,10 +7,6 @@ import { Navbar, Container, Row, Col, Card, Button, Pagination } from 'react-boo
 // API Base URL from environment variables
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000';
 
-// Debug: Log the API URL being used
-console.log('API_BASE_URL:', API_BASE_URL);
-console.log('Environment variables:', process.env);
-
 function App() {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -24,13 +20,10 @@ function App() {
         if (Array.isArray(response.data)) {
           setProducts(response.data);
         } else {
-          console.error('API response is not an array:', response.data);
           setProducts([]); // Set empty array as fallback
         }
       })
       .catch(error => {
-        console.error('There was an error fetching the products!', error);
-        console.error('API URL being used:', `${API_BASE_URL}/api/products/`);
         setProducts([]); // Set empty array as fallback
       });
   }, []);
@@ -83,13 +76,11 @@ function App() {
                     if (Array.isArray(response.data)) {
                       setProducts(response.data);
                     } else {
-                      console.error('API response is not an array:', response.data);
                       setProducts([]); // Set empty array as fallback
                     }
                     setShowSortDropdown(false); // Hide dropdown after selection
                   })
                   .catch(error => {
-                    console.error('There was an error fetching the products!', error);
                     setProducts([]); // Set empty array as fallback
                   });
               }}

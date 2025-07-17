@@ -1,23 +1,31 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import './FlappyBird.css';
-const PIPE_WIDTH = 60; // Width of the pipes
 
-const BIRD_HEIGHT = 25; // Reduced bird height
-const BIRD_WIDTH = 35;  // Reduced bird width
+// Game constants optimized for smooth gameplay
+const PIPE_WIDTH = 60;
+const BIRD_HEIGHT = 25;
+const BIRD_WIDTH = 35;
 const getWindowDimensions = () => ({ width: window.innerWidth, height: window.innerHeight });
+
+// Physics constants for smooth movement
 const GRAVITY = 0.45;
 const JUMP_VELOCITY = -7.5;
 const MAX_FALL_SPEED = 12;
 const PHYSICS_SCALE = 35;
-const INITIAL_PIPE_GAP = 150;  // Reduced gap for more challenge
-const MIN_PIPE_GAP = 110;     // Reduced minimum gap
+const INITIAL_PIPE_GAP = 150;
+const MIN_PIPE_GAP = 110;
 const MIN_PIPE_HEIGHT = 50;
-const BIRD_LEFT_POSITION = 100;  // Move bird more to the right
+const BIRD_LEFT_POSITION = 100;
+
+// Background scrolling constants for smooth animation
+const BACKGROUND_SCROLL_SPEED = 1.5; // Pixels per frame
 
 const FlappyBirdGame = () => {
   const windowDimensions = getWindowDimensions();
   const GAME_WIDTH = windowDimensions.width;
-  const GAME_HEIGHT = 400;
+  const GAME_HEIGHT = Math.min(400, windowDimensions.height * 0.6); // Responsive height
+
+  // Game state
   const [birdPosition, setBirdPosition] = useState(() => GAME_HEIGHT / 2);
   const birdVelocity = useRef(0);
   const [gameHasStarted, setGameHasStarted] = useState(false);
@@ -25,6 +33,10 @@ const FlappyBirdGame = () => {
   const [pipes, setPipes] = useState([]);
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
+
+  // Background scrolling state for smooth animation
+  const backgroundOffset = useRef(0);
+  const [backgroundPosition, setBackgroundPosition] = useState(0);
 
   // Difficulty settings
   const currentPipeSpeed = useRef(2.5); // Slightly slower initial speed
@@ -57,63 +69,87 @@ const FlappyBirdGame = () => {
       return;
     }
 
-    const deltaTime = (timestamp - lastTime.current) / 1000; // seconds
+    const deltaTime = Math.min((timestamp - lastTime.current) / 1000, 1/30); // Cap delta time for stability
     lastTime.current = timestamp;
 
+    // Smooth background scrolling - always animate for professional look
+    backgroundOffset.current += BACKGROUND_SCROLL_SPEED;
+    if (backgroundOffset.current >= GAME_WIDTH) {
+      backgroundOffset.current = 0;
+    }
+    setBackgroundPosition(backgroundOffset.current);
+
     if (gameHasStarted && !gameOver) {
-      // Bird physics with improved calculations
+      // Enhanced bird physics with smoother calculations
       const gravityThisFrame = GRAVITY * deltaTime * PHYSICS_SCALE;
       birdVelocity.current = Math.min(birdVelocity.current + gravityThisFrame, MAX_FALL_SPEED);
-      
-      // Add a slight curve to the jump for better feel
+
+      // Improved jump arc for more natural feel
       if (birdVelocity.current < 0) {
-        birdVelocity.current *= 0.95; // Smooths out the top of the jump arc
+        birdVelocity.current *= 0.96; // Slightly smoother arc
       }
-      
+
       let newBirdPosition = birdPosition + birdVelocity.current;
 
-      // Prevent bird from going out of bounds
-      if (newBirdPosition > GAME_HEIGHT - BIRD_HEIGHT) {
-        newBirdPosition = GAME_HEIGHT - BIRD_HEIGHT;
+      // Smooth boundary collision with small buffer
+      const boundaryBuffer = 2;
+      if (newBirdPosition > GAME_HEIGHT - BIRD_HEIGHT - boundaryBuffer) {
+        newBirdPosition = GAME_HEIGHT - BIRD_HEIGHT - boundaryBuffer;
         setGameOver(true);
-      } else if (newBirdPosition < 0) {
-        newBirdPosition = 0;
+      } else if (newBirdPosition < boundaryBuffer) {
+        newBirdPosition = boundaryBuffer;
         setGameOver(true);
       } else {
         setBirdPosition(newBirdPosition);
       }
 
-      // Pipe movement and collision
+      // Enhanced pipe movement and collision with smoother calculations
       let collisionDetected = false;
-      let scored = false;
+      let scoreIncrement = 0;
+
       setPipes(currentPipes => {
         const newPipes = currentPipes.map(pipe => {
+          // Smoother pipe movement with frame-rate independent speed
           const newLeft = pipe.left - currentPipeSpeed.current * deltaTime * 60;
           const birdLeft = BIRD_LEFT_POSITION;
           const birdRight = birdLeft + BIRD_WIDTH;
+          const pipeLeft = newLeft;
           const pipeRight = newLeft + PIPE_WIDTH;
 
-          // Add a small buffer to make collision detection more forgiving
-          const collisionBuffer = 5;
-          if (birdRight - collisionBuffer > newLeft && birdLeft + collisionBuffer < pipeRight) {
-            if (newBirdPosition + collisionBuffer < pipe.topPipeHeight || 
-                newBirdPosition + BIRD_HEIGHT - collisionBuffer > GAME_HEIGHT - pipe.bottomPipeHeight) {
+
+
+          // Fixed collision detection with proper coordinates
+          const collisionBuffer = 2;
+          const birdTop = newBirdPosition;
+          const birdBottom = newBirdPosition + BIRD_HEIGHT;
+
+          // Check if bird is horizontally within pipe bounds
+          if (birdRight > pipeLeft + collisionBuffer && birdLeft < pipeRight - collisionBuffer) {
+            // Check vertical collision with top pipe or bottom pipe
+            if (birdTop < pipe.topPipeHeight - collisionBuffer ||
+                birdBottom > GAME_HEIGHT - pipe.bottomPipeHeight + collisionBuffer) {
               collisionDetected = true;
             }
           }
 
+          // Fixed scoring system - bird passes when pipe's right edge is past bird's left edge
           if (!pipe.passed && pipeRight < birdLeft) {
-            scored = true;
+            scoreIncrement = 1;
             return { ...pipe, left: newLeft, passed: true };
           }
-          return { ...pipe, left: newLeft };
-        }).filter(pipe => pipe.left > -PIPE_WIDTH);
 
-        if (scored) {
-          setScore(s => s + 1);
+          return { ...pipe, left: newLeft };
+        }).filter(pipe => pipe.left > -PIPE_WIDTH - 10);
+
+        // Update score immediately if a pipe was passed
+        if (scoreIncrement > 0) {
+          setScore(prevScore => prevScore + scoreIncrement);
           adjustDifficulty();
         }
-        if (collisionDetected) setGameOver(true);
+
+        if (collisionDetected) {
+          setGameOver(true);
+        }
 
         return newPipes;
       });
@@ -136,21 +172,34 @@ const FlappyBirdGame = () => {
       }
     }
 
-    if (!gameOver) {
-      gameLoop.current = requestAnimationFrame(gameTick);
-    }
+    // Continue animation loop for smooth background even when game is over
+    gameLoop.current = requestAnimationFrame(gameTick);
   }, [gameHasStarted, gameOver, birdPosition, GAME_HEIGHT, GAME_WIDTH, adjustDifficulty]);
 
   useEffect(() => {
     gameLoop.current = requestAnimationFrame(gameTick);
-    return () => cancelAnimationFrame(gameLoop.current);
+    return () => {
+      if (gameLoop.current) {
+        cancelAnimationFrame(gameLoop.current);
+      }
+    };
   }, [gameTick]);
 
   useEffect(() => {
     if (gameOver && score > highScore) {
       setHighScore(score);
+      // Save high score to localStorage for persistence
+      localStorage.setItem('flappyBirdHighScore', score.toString());
     }
   }, [gameOver, score, highScore]);
+
+  // Load high score from localStorage on component mount
+  useEffect(() => {
+    const savedHighScore = localStorage.getItem('flappyBirdHighScore');
+    if (savedHighScore) {
+      setHighScore(parseInt(savedHighScore, 10));
+    }
+  }, []);
 
   const handleJump = useCallback(() => {
     if (gameOver) return;
@@ -169,6 +218,8 @@ const FlappyBirdGame = () => {
     setGameHasStarted(true);
     lastTime.current = 0;
     lastPipeTime.current = 0;
+    backgroundOffset.current = 0;
+    setBackgroundPosition(0);
     // Reset difficulty settings on restart
     currentPipeSpeed.current = 2.5;
     currentPipeGap.current = INITIAL_PIPE_GAP;
@@ -233,7 +284,7 @@ const FlappyBirdGame = () => {
       gameContainer?.removeEventListener('touchstart', touchHandler);
       gameContainer?.removeEventListener('touchend', touchHandler);
     };
-  }, [handleJump]);
+  }, [handleJump, gameOver]);
 
   const getBirdRotation = () => {
     if (!gameHasStarted) return 0;
@@ -241,34 +292,65 @@ const FlappyBirdGame = () => {
   };
 
   const [birdImgError, setBirdImgError] = useState(false);
+
+  // Calculate responsive dimensions
+  const containerStyle = {
+    height: GAME_HEIGHT,
+    width: '100%',
+    margin: '32px auto',
+    position: 'relative',
+    maxWidth: '100vw',
+    maxHeight: GAME_HEIGHT,
+    touchAction: 'none',
+    userSelect: 'none',
+    cursor: 'pointer',
+    borderRadius: windowDimensions.width <= 768 ? '0' : '8px',
+    overflow: 'hidden'
+  };
+
   return (
-    <div
-      className="flappy-bird-container"
-      style={{
-        height: GAME_HEIGHT,
-        width: '100%',
-        margin: '32px auto',
-        position: 'relative',
-        maxWidth: '100vw',
-        maxHeight: GAME_HEIGHT,
-        touchAction: 'none', // Prevent scrolling on touch
-        userSelect: 'none', // Prevent text selection
-        cursor: 'pointer'
-      }}
-    >
-      {/* Background layers */}
+    <div className="flappy-bird-container" style={containerStyle}>
+      {/* Smooth scrolling background with JavaScript control */}
       <div
         className="background-layer"
         style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '200%',
+          height: '100%',
           backgroundImage: `url(${process.env.PUBLIC_URL}/background.png)`,
-          backgroundSize: 'contain',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'repeat-x'
+          backgroundSize: `${GAME_WIDTH}px 100%`,
+          backgroundPosition: `${-backgroundPosition}px center`,
+          backgroundRepeat: 'repeat-x',
+          zIndex: 1,
+          willChange: 'transform',
+          transform: 'translateZ(0)',
+          backfaceVisibility: 'hidden'
         }}
       />
-      {/* Ground layer removed - mismatches with background.png */}
-      
-      {/* Bird */}
+
+      {/* Secondary background layer for seamless scrolling */}
+      <div
+        className="background-layer-secondary"
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '200%',
+          height: '100%',
+          backgroundImage: `url(${process.env.PUBLIC_URL}/background.png)`,
+          backgroundSize: `${GAME_WIDTH}px 100%`,
+          backgroundPosition: `${GAME_WIDTH - backgroundPosition}px center`,
+          backgroundRepeat: 'repeat-x',
+          zIndex: 1,
+          willChange: 'transform',
+          transform: 'translateZ(0)',
+          backfaceVisibility: 'hidden'
+        }}
+      />
+
+      {/* Enhanced Bird with smooth animations */}
       {!birdImgError ? (
         <img
           src={process.env.PUBLIC_URL + '/bird.png'}
@@ -277,10 +359,15 @@ const FlappyBirdGame = () => {
           style={{
             position: 'absolute',
             left: BIRD_LEFT_POSITION,
-            transform: `translateY(${birdPosition}px) rotate(${getBirdRotation()}deg)`,
+            transform: `translate3d(0, ${birdPosition}px, 0) rotate(${getBirdRotation()}deg)`,
             height: BIRD_HEIGHT,
             width: BIRD_WIDTH,
-            zIndex: 5
+            zIndex: 5,
+            willChange: 'transform',
+            backfaceVisibility: 'hidden',
+            imageRendering: 'crisp-edges',
+            filter: 'drop-shadow(2px 4px 6px rgba(0,0,0,0.3))',
+            transition: gameHasStarted ? 'none' : 'transform 0.3s ease'
           }}
           onError={() => setBirdImgError(true)}
         />
@@ -290,50 +377,111 @@ const FlappyBirdGame = () => {
           style={{
             position: 'absolute',
             left: BIRD_LEFT_POSITION,
-            transform: `translateY(${birdPosition}px) rotate(${getBirdRotation()}deg)`,
+            transform: `translate3d(0, ${birdPosition}px, 0) rotate(${getBirdRotation()}deg)`,
             height: BIRD_HEIGHT,
             width: BIRD_WIDTH,
-            background: '#FFD700',
+            background: 'linear-gradient(45deg, #FFD700, #FFA500)',
             borderRadius: '50%',
             border: '2px solid #333',
             zIndex: 5,
+            willChange: 'transform',
+            backfaceVisibility: 'hidden',
+            boxShadow: '2px 4px 6px rgba(0,0,0,0.3)',
+            transition: gameHasStarted ? 'none' : 'transform 0.3s ease'
           }}
         />
       )}
+      {/* Enhanced pipes with smooth rendering */}
       {pipes.map((pipe, index) => (
         <React.Fragment key={index}>
           <div
             className="topPipe"
             style={{
+              position: 'absolute',
               left: pipe.left,
               height: pipe.topPipeHeight,
               top: 0,
-              transform: 'translate3d(0,0,0)' // For smoother animation
+              width: PIPE_WIDTH,
+              transform: 'translate3d(0,0,0)',
+              willChange: 'transform',
+              backfaceVisibility: 'hidden',
+              zIndex: 3
             }}
           />
           <div
             className="pipe"
             style={{
+              position: 'absolute',
               left: pipe.left,
               height: pipe.bottomPipeHeight,
               bottom: 0,
-              transform: 'translate3d(0,0,0)' // For smoother animation
+              width: PIPE_WIDTH,
+              transform: 'translate3d(0,0,0)',
+              willChange: 'transform',
+              backfaceVisibility: 'hidden',
+              zIndex: 3
             }}
           />
         </React.Fragment>
       ))}
-      <div className="game-info">Score: {score} | High Score: {highScore}</div>
+      {/* Enhanced game info with better styling */}
+      <div
+        className="game-info"
+        style={{
+          position: 'absolute',
+          top: '15px',
+          left: '15px',
+          color: '#fff',
+          fontSize: windowDimensions.width <= 480 ? '14px' : '18px',
+          fontWeight: 'bold',
+          zIndex: 10,
+          textShadow: '2px 2px 4px rgba(0,0,0,0.7)',
+          fontFamily: 'Arial, sans-serif'
+        }}
+      >
+        Score: {score} | Best: {highScore}
+      </div>
+
+      {/* Start menu with improved mobile support */}
       {!gameHasStarted && !gameOver && (
         <div className="menu">
-          <h2>Tap, Click or Press Space to Play</h2>
-          <p style={{ fontSize: '16px', marginTop: '10px', opacity: 0.8 }}>
-            Tap anywhere to make the bird fly!
+          <h2 style={{
+            fontSize: windowDimensions.width <= 480 ? '22px' : '28px',
+            marginBottom: '15px',
+            textShadow: '2px 2px 4px rgba(0,0,0,0.7)'
+          }}>
+            Flappy Bird
+          </h2>
+          <p style={{
+            fontSize: windowDimensions.width <= 480 ? '14px' : '16px',
+            marginTop: '10px',
+            opacity: 0.9,
+            textShadow: '1px 1px 2px rgba(0,0,0,0.7)'
+          }}>
+            {windowDimensions.width <= 768 ? 'Tap to fly!' : 'Tap, Click or Press Space to Play'}
           </p>
         </div>
       )}
+
+      {/* Game over menu with enhanced styling */}
       {gameOver && (
         <div className="menu">
-          <h2>Game Over</h2>
+          <h2 style={{
+            fontSize: windowDimensions.width <= 480 ? '24px' : '32px',
+            marginBottom: '10px',
+            color: '#ff4444',
+            textShadow: '2px 2px 4px rgba(0,0,0,0.7)'
+          }}>
+            Game Over
+          </h2>
+          <p style={{
+            fontSize: windowDimensions.width <= 480 ? '14px' : '16px',
+            marginBottom: '20px',
+            opacity: 0.9,
+            textShadow: '1px 1px 2px rgba(0,0,0,0.7)'
+          }}>
+            Score: {score} {score > highScore && '🎉 New Record!'}
+          </p>
           <button
             onClick={handleRestartButton}
             onTouchStart={handleRestartButton}
@@ -342,13 +490,20 @@ const FlappyBirdGame = () => {
               touchAction: 'manipulation',
               WebkitTapHighlightColor: 'transparent',
               cursor: 'pointer',
-              padding: '15px 30px',
-              fontSize: '18px',
-              minWidth: '120px',
-              minHeight: '48px'
+              padding: windowDimensions.width <= 480 ? '18px 36px' : '15px 30px',
+              fontSize: windowDimensions.width <= 480 ? '20px' : '18px',
+              minWidth: windowDimensions.width <= 480 ? '140px' : '120px',
+              minHeight: windowDimensions.width <= 480 ? '56px' : '48px',
+              backgroundColor: '#4CAF50',
+              color: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              boxShadow: '0 4px 8px rgba(0,0,0,0.3)',
+              transition: 'all 0.2s ease',
+              fontWeight: 'bold'
             }}
           >
-            Restart
+            Play Again
           </button>
         </div>
       )}

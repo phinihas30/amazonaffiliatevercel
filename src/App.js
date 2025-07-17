@@ -118,7 +118,7 @@ function App() {
                     }}
                     onClick={() => window.open(
                       `https://wa.me/?text=${encodeURIComponent(
-                        `Check out this product: ${product.name} - ${product.affiliate_full_link}\nFind more deals at: https://yourcompanysite.com`
+                        `Check out this product: ${product.name} - ${product.affiliate_full_link}\nFind more deals at: https://www.pickmetrend.com`
                       )}`,
                       '_blank'
                     )}
@@ -163,7 +163,7 @@ function App() {
       </Container>
 
       <footer className="bg-dark text-white mt-5 p-4 text-center">
-        <p>&copy; 2025 Affiliate Site. All Rights Reserved.</p>
+        <p>&copy; 2025 PickMeTrend. All Rights Reserved.</p>
         <p style={{fontSize: '0.95em', marginTop: '8px'}}>
           <strong>Privacy Policy:</strong> Your privacy is important to us. We collect only the information necessary to provide our services and do not sell or share your personal data with third parties, except as required by law. For more information, please contact our support team.
         </p>

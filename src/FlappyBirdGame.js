@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import './FlappyBird.css';
 
+// Deployment timestamp: 2025-01-17
+
 // Game constants optimized for smooth gameplay
 const PIPE_WIDTH = 60;
 const BIRD_HEIGHT = 25;

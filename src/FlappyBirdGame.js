@@ -18,7 +18,7 @@ const MIN_PIPE_HEIGHT = 50;
 const BIRD_LEFT_POSITION = 100;
 
 // Background scrolling constants for smooth animation
-const BACKGROUND_SCROLL_SPEED = 1.5; // Pixels per frame
+const BACKGROUND_SCROLL_SPEED = 1.5; // Pixels per frame - optimized for Vercel deployment
 
 const FlappyBirdGame = () => {
   const windowDimensions = getWindowDimensions();

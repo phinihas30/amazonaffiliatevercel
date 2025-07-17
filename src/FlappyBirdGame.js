@@ -394,7 +394,7 @@ const FlappyBirdGame = () => {
           }}
         />
       )}
-      {/* Enhanced pipes with smooth rendering and images */}
+      {/* Enhanced pipes with consistent image sizing */}
       {pipes.map((pipe, index) => (
         <React.Fragment key={index}>
           {/* Top Pipe */}
@@ -402,7 +402,7 @@ const FlappyBirdGame = () => {
             <img
               src={process.env.PUBLIC_URL + '/pipe-top.png'}
               alt="Top Pipe"
-              className="topPipe"
+              className="topPipe-image"
               style={{
                 position: 'absolute',
                 left: pipe.left,
@@ -412,17 +412,17 @@ const FlappyBirdGame = () => {
                 transform: 'translate3d(0,0,0)',
                 willChange: 'transform',
                 backfaceVisibility: 'hidden',
-                zIndex: 3,
-                objectFit: 'cover',
-                objectPosition: 'bottom',
+                zIndex: 5,
+                objectFit: 'fill',
                 imageRendering: 'auto',
-                filter: 'drop-shadow(2px 0 4px rgba(0,0,0,0.2))'
+                filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,0.3))',
+                background: 'transparent'
               }}
               onError={() => setPipeImgError(true)}
             />
           ) : (
             <div
-              className="topPipe"
+              className="topPipe-fallback"
               style={{
                 position: 'absolute',
                 left: pipe.left,
@@ -432,7 +432,7 @@ const FlappyBirdGame = () => {
                 transform: 'translate3d(0,0,0)',
                 willChange: 'transform',
                 backfaceVisibility: 'hidden',
-                zIndex: 3
+                zIndex: 4
               }}
             />
           )}
@@ -442,7 +442,7 @@ const FlappyBirdGame = () => {
             <img
               src={process.env.PUBLIC_URL + '/pipe-bottom.png'}
               alt="Bottom Pipe"
-              className="pipe"
+              className="pipe-image"
               style={{
                 position: 'absolute',
                 left: pipe.left,
@@ -452,17 +452,17 @@ const FlappyBirdGame = () => {
                 transform: 'translate3d(0,0,0)',
                 willChange: 'transform',
                 backfaceVisibility: 'hidden',
-                zIndex: 3,
-                objectFit: 'cover',
-                objectPosition: 'top',
+                zIndex: 5,
+                objectFit: 'fill',
                 imageRendering: 'auto',
-                filter: 'drop-shadow(2px 0 4px rgba(0,0,0,0.2))'
+                filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,0.3))',
+                background: 'transparent'
               }}
               onError={() => setPipeImgError(true)}
             />
           ) : (
             <div
-              className="pipe"
+              className="pipe-fallback"
               style={{
                 position: 'absolute',
                 left: pipe.left,
@@ -472,7 +472,7 @@ const FlappyBirdGame = () => {
                 transform: 'translate3d(0,0,0)',
                 willChange: 'transform',
                 backfaceVisibility: 'hidden',
-                zIndex: 3
+                zIndex: 4
               }}
             />
           )}

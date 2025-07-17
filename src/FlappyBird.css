@@ -181,12 +181,12 @@
     transition: none;
 }
 
-.pipe, .topPipe {
+/* Fallback pipe styling - only used when images fail to load */
+.pipe-fallback, .topPipe-fallback {
     position: absolute;
     width: 60px;
-    /* Fallback background for when images fail to load */
     background: linear-gradient(90deg, #4a7c0a 0%, #5a8c1a 50%, #4a7c0a 100%);
-    z-index: 3;
+    z-index: 4;
     will-change: transform;
     transform: translateZ(0);
     backface-visibility: hidden;
@@ -194,20 +194,35 @@
         inset 2px 0 4px rgba(255,255,255,0.2),
         inset -2px 0 4px rgba(0,0,0,0.2),
         2px 0 8px rgba(0,0,0,0.1);
-    /* Enhanced performance for smooth movement */
     contain: layout style paint;
 }
 
-/* Pipe image styling */
-.pipe img, .topPipe img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+/* Updated pipe image styling - consistent sizing with built-in caps */
+.pipe-image, .topPipe-image {
+    position: absolute;
+    width: 60px !important;
+    z-index: 5;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    contain: layout style paint;
+    background: transparent !important;
+    border: none;
+    outline: none;
+    object-fit: fill !important;
     image-rendering: auto;
-    filter: drop-shadow(2px 0 4px rgba(0,0,0,0.2));
 }
 
-.pipe::before, .topPipe::before {
+/* Remove any conflicting styles for image pipes */
+.pipe-image, .topPipe-image {
+    box-shadow: none;
+    border-radius: 0;
+    max-width: none;
+    min-width: 60px;
+}
+
+/* Pipe caps and styling - only for fallback pipes */
+.pipe-fallback::before, .topPipe-fallback::before {
     content: '';
     position: absolute;
     left: -3px;
@@ -218,28 +233,28 @@
     border-radius: 2px;
 }
 
-.pipe::before {
+.pipe-fallback::before {
     top: 0;
 }
 
-.topPipe::before {
+.topPipe-fallback::before {
     bottom: 0;
 }
 
-.pipe {
+.pipe-fallback {
     border-left: 2px solid #4A7A1C;
     border-right: 2px solid #4A7A1C;
     border-top: 2px solid #4A7A1C;
 }
 
-.topPipe {
+.topPipe-fallback {
     border-left: 2px solid #4A7A1C;
     border-right: 2px solid #4A7A1C;
     border-bottom: 2px solid #4A7A1C;
 }
 
-/* Add shading for 3D effect */
-.pipe::after, .topPipe::after {
+/* Add shading for 3D effect - only for fallback pipes */
+.pipe-fallback::after, .topPipe-fallback::after {
     content: '';
     position: absolute;
     top: 0;
@@ -247,12 +262,12 @@
     width: 8px;
 }
 
-.pipe::after {
+.pipe-fallback::after {
     left: 0;
     background: linear-gradient(to right, rgba(116, 191, 46, 0.7), transparent);
 }
 
-.topPipe::after {
+.topPipe-fallback::after {
     right: 0;
     background: linear-gradient(to left, rgba(74, 122, 28, 0.2), transparent);
 }

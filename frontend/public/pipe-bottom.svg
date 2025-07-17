@@ -1,0 +1,29 @@
+<svg width="60" height="400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="pipeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#4a7c0a;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#5a8c1a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4a7c0a;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="capGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#5a8c1a;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#6a9c2a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#5a8c1a;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Main pipe body -->
+  <rect x="2" y="0" width="56" height="374" fill="url(#pipeGradient)" stroke="#4A7A1C" stroke-width="2"/>
+  
+  <!-- Pipe cap at the top -->
+  <rect x="-3" y="374" width="66" height="26" fill="url(#capGradient)" stroke="#4A7A1C" stroke-width="2" rx="2"/>
+  
+  <!-- Highlight on left side -->
+  <rect x="2" y="0" width="8" height="374" fill="rgba(116, 191, 46, 0.7)"/>
+  
+  <!-- Shadow on right side -->
+  <rect x="50" y="0" width="8" height="374" fill="rgba(74, 122, 28, 0.2)"/>
+  
+  <!-- Cap highlight -->
+  <rect x="-3" y="374" width="8" height="26" fill="rgba(116, 191, 46, 0.5)"/>
+</svg>

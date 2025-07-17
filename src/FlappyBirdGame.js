@@ -294,6 +294,7 @@ const FlappyBirdGame = () => {
   };
 
   const [birdImgError, setBirdImgError] = useState(false);
+  const [pipeImgError, setPipeImgError] = useState(false);
 
   // Calculate responsive dimensions
   const containerStyle = {
@@ -393,37 +394,88 @@ const FlappyBirdGame = () => {
           }}
         />
       )}
-      {/* Enhanced pipes with smooth rendering */}
+      {/* Enhanced pipes with smooth rendering and images */}
       {pipes.map((pipe, index) => (
         <React.Fragment key={index}>
-          <div
-            className="topPipe"
-            style={{
-              position: 'absolute',
-              left: pipe.left,
-              height: pipe.topPipeHeight,
-              top: 0,
-              width: PIPE_WIDTH,
-              transform: 'translate3d(0,0,0)',
-              willChange: 'transform',
-              backfaceVisibility: 'hidden',
-              zIndex: 3
-            }}
-          />
-          <div
-            className="pipe"
-            style={{
-              position: 'absolute',
-              left: pipe.left,
-              height: pipe.bottomPipeHeight,
-              bottom: 0,
-              width: PIPE_WIDTH,
-              transform: 'translate3d(0,0,0)',
-              willChange: 'transform',
-              backfaceVisibility: 'hidden',
-              zIndex: 3
-            }}
-          />
+          {/* Top Pipe */}
+          {!pipeImgError ? (
+            <img
+              src={process.env.PUBLIC_URL + '/pipe-top.png'}
+              alt="Top Pipe"
+              className="topPipe"
+              style={{
+                position: 'absolute',
+                left: pipe.left,
+                height: pipe.topPipeHeight,
+                top: 0,
+                width: PIPE_WIDTH,
+                transform: 'translate3d(0,0,0)',
+                willChange: 'transform',
+                backfaceVisibility: 'hidden',
+                zIndex: 3,
+                objectFit: 'cover',
+                objectPosition: 'bottom',
+                imageRendering: 'auto',
+                filter: 'drop-shadow(2px 0 4px rgba(0,0,0,0.2))'
+              }}
+              onError={() => setPipeImgError(true)}
+            />
+          ) : (
+            <div
+              className="topPipe"
+              style={{
+                position: 'absolute',
+                left: pipe.left,
+                height: pipe.topPipeHeight,
+                top: 0,
+                width: PIPE_WIDTH,
+                transform: 'translate3d(0,0,0)',
+                willChange: 'transform',
+                backfaceVisibility: 'hidden',
+                zIndex: 3
+              }}
+            />
+          )}
+
+          {/* Bottom Pipe */}
+          {!pipeImgError ? (
+            <img
+              src={process.env.PUBLIC_URL + '/pipe-bottom.png'}
+              alt="Bottom Pipe"
+              className="pipe"
+              style={{
+                position: 'absolute',
+                left: pipe.left,
+                height: pipe.bottomPipeHeight,
+                bottom: 0,
+                width: PIPE_WIDTH,
+                transform: 'translate3d(0,0,0)',
+                willChange: 'transform',
+                backfaceVisibility: 'hidden',
+                zIndex: 3,
+                objectFit: 'cover',
+                objectPosition: 'top',
+                imageRendering: 'auto',
+                filter: 'drop-shadow(2px 0 4px rgba(0,0,0,0.2))'
+              }}
+              onError={() => setPipeImgError(true)}
+            />
+          ) : (
+            <div
+              className="pipe"
+              style={{
+                position: 'absolute',
+                left: pipe.left,
+                height: pipe.bottomPipeHeight,
+                bottom: 0,
+                width: PIPE_WIDTH,
+                transform: 'translate3d(0,0,0)',
+                willChange: 'transform',
+                backfaceVisibility: 'hidden',
+                zIndex: 3
+              }}
+            />
+          )}
         </React.Fragment>
       ))}
       {/* Enhanced game info with better styling */}

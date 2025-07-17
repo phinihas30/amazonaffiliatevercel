@@ -184,6 +184,7 @@
 .pipe, .topPipe {
     position: absolute;
     width: 60px;
+    /* Fallback background for when images fail to load */
     background: linear-gradient(90deg, #4a7c0a 0%, #5a8c1a 50%, #4a7c0a 100%);
     z-index: 3;
     will-change: transform;
@@ -195,6 +196,15 @@
         2px 0 8px rgba(0,0,0,0.1);
     /* Enhanced performance for smooth movement */
     contain: layout style paint;
+}
+
+/* Pipe image styling */
+.pipe img, .topPipe img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    image-rendering: auto;
+    filter: drop-shadow(2px 0 4px rgba(0,0,0,0.2));
 }
 
 .pipe::before, .topPipe::before {

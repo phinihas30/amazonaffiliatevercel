@@ -180,7 +180,25 @@ function App() {
         )}
       </Container>
 
-      <footer className="bg-dark text-white mt-5 p-4 text-center">
+      {/* Google AdSense Footer Ad */}
+      <div className="adsense-footer" style={{
+        textAlign: 'center',
+        padding: '20px 0',
+        backgroundColor: '#f8f9fa',
+        borderTop: '1px solid #dee2e6',
+        marginTop: '40px'
+      }}>
+        <AdSenseAd
+          client="ca-pub-3925708528499289" // Your AdSense client ID
+          slot="XXXXXXXXXX" // Replace with your ad slot ID for footer
+          style={{ display: 'block', width: '100%', height: '250px' }}
+          format="rectangle"
+          responsive={true}
+          className="footer-ad"
+        />
+      </div>
+
+      <footer className="bg-dark text-white mt-0 p-4 text-center">
         <p>&copy; 2025 PickMeTrend. All Rights Reserved.</p>
         <p style={{fontSize: '0.95em', marginTop: '8px'}}>
           <strong>Privacy Policy:</strong> Your privacy is important to us. We collect only the information necessary to provide our services and do not sell or share your personal data with third parties, except as required by law. For more information, please contact our support team.

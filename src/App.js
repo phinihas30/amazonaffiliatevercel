@@ -143,12 +143,7 @@ const HomePage = () => {
           </div>
         </div>
         
-        {/* Debug info */}
-        <div className="mb-3">
-          <small className="text-muted">
-            Debug: Total products: {products.length}, Current page products: {currentProducts.length}
-          </small>
-        </div>
+
         
         <Row>
           {currentProducts.length === 0 ? (

@@ -15,7 +15,7 @@ const AdSenseAd = ({
         window.adsbygoogle.push({});
       }
     } catch (error) {
-      console.error('AdSense error:', error);
+      // AdSense error handling - silent in production
     }
   }, []);
 

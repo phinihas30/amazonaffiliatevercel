@@ -20,20 +20,15 @@ const HomePage = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
-    console.log('Fetching products from:', `${API_BASE_URL}/api/products/`);
     axios.get(`${API_BASE_URL}/api/products/`)
       .then(response => {
-        console.log('API Response:', response.data);
         if (Array.isArray(response.data)) {
           setProducts(response.data);
-          console.log('Products set:', response.data.length, 'items');
         } else {
-          console.log('Response data is not an array:', response.data);
           setProducts([]);
         }
       })
       .catch(error => {
-        console.error('API Error:', error);
         setProducts([]);
       });
   }, []);
@@ -102,7 +97,6 @@ const HomePage = () => {
                   
                   axios.get(sortedUrl)
                     .then(response => {
-                      console.log('Sorted products:', response.data);
                       if (Array.isArray(response.data)) {
                         setProducts(response.data);
                         setCurrentPage(1);
@@ -111,7 +105,6 @@ const HomePage = () => {
                       }
                     })
                     .catch(error => {
-                      console.error('Sort error:', error);
                       setProducts([]);
                     });
                 }}

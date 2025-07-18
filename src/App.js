@@ -43,10 +43,10 @@ const HomePage = () => {
 
   return (
     <div className="App">
-      {/* Header - Black background with white text on left */}
-      <div className="bg-dark text-white py-3">
+      {/* Header - Black background with white text on left - Mobile Optimized */}
+      <div className="bg-dark text-white py-3 header-mobile">
         <Container>
-          <h3 style={{ fontSize: '1.5rem', fontWeight: 'normal', margin: 0 }}>
+          <h3 className="header-mobile" style={{ fontSize: '1.5rem', fontWeight: 'normal', margin: 0 }}>
             PickMeTrend Deals
           </h3>
         </Container>
@@ -57,8 +57,8 @@ const HomePage = () => {
         <FlappyBirdGame />
       </Container>
 
-      {/* Google AdSense */}
-      <Container className="my-4">
+      {/* Google AdSense - Mobile Optimized */}
+      <Container className="my-4 adsense-container">
         <AdSenseAd />
       </Container>
 
@@ -152,12 +152,13 @@ const HomePage = () => {
             </Col>
           ) : (
             currentProducts.map(product => (
-              <Col key={product.id} sm={12} md={6} lg={3} className="mb-4">
+              <Col key={product.id} sm={12} md={6} lg={3} className="mb-4 product-card-mobile">
                 <Card className="h-100 shadow-sm">
                   <div style={{ position: 'relative' }}>
-                    <Card.Img 
-                      variant="top" 
-                      src={product.product_image_link} 
+                    <Card.Img
+                      variant="top"
+                      src={product.product_image_link}
+                      className="product-image-mobile"
                       style={{ objectFit: 'contain', height: '220px', background: '#fff' }}
                     />
                     <Button 
@@ -392,8 +393,8 @@ const HomePage = () => {
         </Modal.Footer>
       </Modal>
 
-      {/* Google AdSense - Above Footer */}
-      <Container className="my-4">
+      {/* Google AdSense - Above Footer - Mobile Optimized */}
+      <Container className="my-4 adsense-container">
         <AdSenseAd />
       </Container>
 
@@ -412,11 +413,11 @@ function App() {
           <Route path="/privacy" element={<PrivacyPolicy />} />
         </Routes>
 
-        {/* Simple Footer with Links */}
-        <footer className="bg-dark text-white mt-5">
+        {/* Simple Footer with Links - Mobile Optimized */}
+        <footer className="bg-dark text-white mt-5 footer-mobile">
           <Container className="py-4">
             <Row>
-              <Col md={8}>
+              <Col md={8} className="mb-3 mb-md-0">
                 <p className="mb-2" style={{ fontSize: '0.9rem' }}>
                   &copy; 2025 <strong>PickMeTrend</strong>. All Rights Reserved.
                 </p>
@@ -426,12 +427,12 @@ function App() {
                   advertising and linking to Amazon.com.
                 </p>
               </Col>
-              <Col md={4} className="text-md-end">
+              <Col md={4} className="text-md-end text-center text-md-start">
                 <div className="mb-3">
-                  <Link to="/about" className="text-warning text-decoration-none me-3">
+                  <Link to="/about" className="text-warning text-decoration-none me-3 btn-mobile">
                     About Us
                   </Link>
-                  <Link to="/privacy" className="text-warning text-decoration-none">
+                  <Link to="/privacy" className="text-warning text-decoration-none btn-mobile">
                     Privacy Policy
                   </Link>
                 </div>

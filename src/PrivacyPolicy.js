@@ -5,17 +5,17 @@ import AdSenseAd from './components/AdSenseAd';
 const PrivacyPolicy = () => {
   return (
     <div>
-      {/* Header - Black background with white text on left */}
-      <div className="bg-dark text-white py-3">
+      {/* Header - Black background with white text on left - Mobile Optimized */}
+      <div className="bg-dark text-white py-3 header-mobile">
         <Container>
-          <h3 style={{ fontSize: '1.5rem', fontWeight: 'normal', margin: 0 }}>
+          <h3 className="header-mobile" style={{ fontSize: '1.5rem', fontWeight: 'normal', margin: 0 }}>
             Privacy Policy
           </h3>
         </Container>
       </div>
 
-      {/* Google AdSense - Below Header */}
-      <Container className="my-4">
+      {/* Google AdSense - Below Header - Mobile Optimized */}
+      <Container className="my-4 adsense-container">
         <AdSenseAd />
       </Container>
 
@@ -85,8 +85,8 @@ const PrivacyPolicy = () => {
         </div>
       </Container>
 
-      {/* Google AdSense - Above Footer */}
-      <Container className="my-4">
+      {/* Google AdSense - Above Footer - Mobile Optimized */}
+      <Container className="my-4 adsense-container">
         <AdSenseAd />
       </Container>
     </div>

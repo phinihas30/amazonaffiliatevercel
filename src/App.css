@@ -36,3 +36,172 @@
     transform: rotate(360deg);
   }
 }
+
+/* Mobile Optimization for Google AdSense Approval */
+/* Ensure all content is mobile-friendly */
+
+/* Mobile-first responsive design */
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header mobile optimization */
+.header-mobile {
+  padding: 1rem 0;
+}
+
+/* Product cards mobile optimization */
+.product-card-mobile {
+  margin-bottom: 1.5rem;
+}
+
+.product-image-mobile {
+  height: 200px;
+  object-fit: contain;
+  width: 100%;
+}
+
+/* Button mobile optimization */
+.btn-mobile {
+  min-height: 44px;
+  min-width: 44px;
+  font-size: 16px;
+  padding: 12px 20px;
+}
+
+/* Footer mobile optimization */
+.footer-mobile {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+/* AdSense container mobile optimization */
+.adsense-mobile {
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+/* Mobile breakpoints for better responsiveness */
+@media (max-width: 576px) {
+  /* Extra small devices (phones) */
+  .container {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .product-card-mobile {
+    margin-bottom: 1rem;
+  }
+
+  .product-image-mobile {
+    height: 180px;
+  }
+
+  .btn-mobile {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+
+  .footer-mobile {
+    padding: 1.5rem 1rem;
+  }
+
+  .footer-mobile .col-md-4 {
+    text-align: center !important;
+    margin-top: 1rem;
+  }
+
+  .footer-mobile .text-md-end {
+    text-align: center !important;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Small devices (tablets) */
+  .header-mobile h3 {
+    font-size: 1.3rem;
+  }
+
+  .product-card-mobile .card-title {
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+
+  .product-card-mobile .card-text {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 992px) {
+  /* Medium devices (small laptops) */
+  .container {
+    max-width: 100%;
+  }
+}
+
+/* Touch-friendly interactions */
+@media (hover: none) and (pointer: coarse) {
+  /* Touch devices */
+  .btn:hover {
+    transform: none;
+  }
+
+  .card:hover {
+    transform: none;
+  }
+
+  .btn-mobile:active {
+    transform: scale(0.98);
+  }
+}
+
+/* Ensure text is readable on all devices */
+body {
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+/* Improve tap targets for mobile */
+a, button, .btn {
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Prevent horizontal scroll on mobile */
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Optimize images for mobile */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Mobile-friendly form elements */
+input, textarea, select {
+  font-size: 16px; /* Prevents zoom on iOS */
+}
+
+/* AdSense mobile optimization */
+.adsense-container {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  text-align: center;
+  margin: 1rem auto;
+}
+
+@media (max-width: 768px) {
+  .adsense-container {
+    margin: 1rem 0;
+  }
+}

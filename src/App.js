@@ -50,14 +50,14 @@ function App() {
       {/* Google AdSense Header Ad */}
       <div className="adsense-header" style={{
         textAlign: 'center',
-        padding: '10px 0',
+        padding: '8px 0',
         backgroundColor: '#f8f9fa',
         borderBottom: '1px solid #dee2e6'
       }}>
         <AdSenseAd
           client="ca-pub-3925708528499289" // Your AdSense client ID
           slot="XXXXXXXXXX" // Replace with your ad slot ID
-          style={{ display: 'block', width: '100%', height: '90px' }}
+          style={{ display: 'block', width: '100%' }}
           format="horizontal"
           responsive={true}
           className="header-ad"

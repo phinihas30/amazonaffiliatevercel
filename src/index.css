@@ -20,3 +20,35 @@ body {
 .card-img-top {
   /* Removed object-fit: cover and height to allow inline style to control image display */
 }
+
+/* AdSense Header Ad Mobile Responsiveness */
+.adsense-header .header-ad {
+  height: 90px;
+}
+
+@media (max-width: 768px) {
+  .adsense-header {
+    padding: 5px 0 !important;
+  }
+
+  .adsense-header .header-ad {
+    height: 50px !important;
+    max-height: 50px !important;
+  }
+
+  .adsense-header .adsense-container {
+    height: 50px;
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 480px) {
+  .adsense-header .header-ad {
+    height: 40px !important;
+    max-height: 40px !important;
+  }
+
+  .adsense-header .adsense-container {
+    height: 40px;
+  }
+}

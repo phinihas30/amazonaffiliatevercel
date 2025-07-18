@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Navbar, Container, Row, Col, Card, Button, Pagination } from 'react-bootstrap';
+import AdSenseAd from './components/AdSenseAd';
 
 // API Base URL from environment variables
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000';
@@ -45,6 +46,23 @@ function App() {
           <Navbar.Brand href="#home" className="brand-text">PickMeTrend Deals</Navbar.Brand>
         </Container>
       </Navbar>
+
+      {/* Google AdSense Header Ad */}
+      <div className="adsense-header" style={{
+        textAlign: 'center',
+        padding: '10px 0',
+        backgroundColor: '#f8f9fa',
+        borderBottom: '1px solid #dee2e6'
+      }}>
+        <AdSenseAd
+          client="ca-pub-3925708528499289" // Your AdSense client ID
+          slot="XXXXXXXXXX" // Replace with your ad slot ID
+          style={{ display: 'block', width: '100%', height: '90px' }}
+          format="horizontal"
+          responsive={true}
+          className="header-ad"
+        />
+      </div>
 
       <FlappyBirdGame />
 

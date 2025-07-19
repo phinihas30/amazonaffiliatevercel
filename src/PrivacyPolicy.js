@@ -32,7 +32,6 @@ const PrivacyPolicy = () => {
           <h4>Information We Collect</h4>
           <ul>
             <li>Basic analytics data (page views, click tracking)</li>
-            <li>Device and browser information for optimization</li>
             <li>No personal information is stored or collected</li>
           </ul>
 
@@ -67,7 +66,7 @@ const PrivacyPolicy = () => {
             If you have any questions about this Privacy Policy, please contact us at:
           </p>
           <p>
-            <strong>Email:</strong> privacy@pickmetrend.com<br/>
+            <strong>Email:</strong> support@pickmetrend.com<br/>
             <strong>Response Time:</strong> We aim to respond within 48 hours
           </p>
 

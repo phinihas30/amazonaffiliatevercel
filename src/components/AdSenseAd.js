@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 const AdSenseAd = ({ 
   client = "ca-pub-3925708528499289", // Your AdSense client ID
-  slot = "XXXXXXXXXX", // Replace with your ad slot ID
+  slot = "6554699787", // Replace with your ad slot ID
   style = { display: 'block' },
   format = "auto",
   responsive = true,

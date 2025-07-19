@@ -51,7 +51,7 @@ const AboutUs = () => {
             We'd love to hear from you!
           </p>
           <p>
-            <strong>Email:</strong> contact@pickmetrend.com<br/>
+            <strong>Email:</strong> support@pickmetrend.com<br/>
             <strong>Business Hours:</strong> Monday - Friday, 9:00 AM - 6:00 PM EST
           </p>
 

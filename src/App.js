@@ -92,7 +92,7 @@ const HomePage = () => {
                   } else if (value === 'rating_desc') {
                     sortedUrl += '?ordering=-rating';
                   } else if (value === 'featured') {
-                    sortedUrl += '?ordering=-is_featured,-rating';
+                    sortedUrl += '?ordering=-is_featured,-created_at';
                   }
                   
                   axios.get(sortedUrl)
